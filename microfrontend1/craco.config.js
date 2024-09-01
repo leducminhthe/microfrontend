@@ -1,9 +1,9 @@
 const { ModuleFederationPlugin } = require('webpack').container;
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const deps = require('./package.json').dependencies;
 
 module.exports = {
   webpack: {
-    configure: (webpackConfig) => {
+    configure: (webpackConfig, { env, paths }) => {
       webpackConfig.output.publicPath = 'auto';
       webpackConfig.plugins.push(
         new ModuleFederationPlugin({
@@ -12,7 +12,12 @@ module.exports = {
           exposes: {
             './App': './src/App',
           },
-        }),
+          shared: {
+            ...deps,
+            react: { singleton: true, eager: true, requiredVersion: deps.react },
+            'react-dom': { singleton: true, eager: true, requiredVersion: deps['react-dom'] }
+          },
+        })
       );
       return webpackConfig;
     },

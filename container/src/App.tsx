@@ -7,6 +7,20 @@ const MicroFrontend1 = React.lazy(() =>
   }))
 );
 
+const TableCustomWrapper = ({ dataSource, columns }: { dataSource: any; columns: any }) => {
+  const TableCustom = React.lazy(() =>
+    import('sharedUtils/TableCustom').catch(() => ({
+      default: () => <div>TableCustom is not available</div>,
+    }))
+  );
+
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TableCustom dataSource={dataSource} columns={columns} />
+    </Suspense>
+  );
+};
+
 function App() {
   const test = async () => {
     try {
@@ -33,7 +47,7 @@ function App() {
           Learn React
         </a>
         <Suspense fallback={<div>Loading...</div>}>
-          <MicroFrontend1 test={1232131221111}  handleClick={test} />
+          <MicroFrontend1 test={1232131221111}  handleClick={test} TableCustom={TableCustomWrapper} />
         </Suspense>
       </header>
     </div>
