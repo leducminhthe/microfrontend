@@ -12,6 +12,11 @@ module.exports = {
           exposes: {
             './App': './src/App',
           },
+          shared: {
+            react: { singleton: true, eager: true, strictVersion: true, requiredVersion: "^18.3.1" },
+            "react-dom": { singleton: true, eager: true, strictVersion: true, requiredVersion: "^18.3.1" },
+            antd: { singleton: true },
+          },
         }),
       );
       return webpackConfig;
